@@ -20,7 +20,6 @@ const store = {
         allIds: [],
         byId: {},
       },
-      seriesBook: [],
     },
   },
   init(onComplete) {
@@ -97,6 +96,30 @@ const store = {
     api.removeSeries(id, (response) => {
       this.state.data = response.data;
     });
+  },
+  getBookAuthors(bookId) {
+    const authors = [];
+
+    if (bookId) {
+      this.state.data.authorBook.allIds.map((id) => {
+        const bookAuthor = this.state.data.authorBook.byId[id];
+
+        if (bookAuthor.bookId === bookId) {
+          const author = this.state.data.authors.byId[bookAuthor.authorId];
+          authors.push(author);
+        }
+      });
+    }
+
+    return authors;
+  },
+  getBookSeries(bookId) {
+    if (bookId) {
+      const book = this.state.data.books.byId[bookId];
+      return this.state.data.series.byId[book.seriesId];
+    }
+
+    return;
   },
 };
 

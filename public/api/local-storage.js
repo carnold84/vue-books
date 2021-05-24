@@ -108,7 +108,7 @@ VueBooksApi.prototype.init = function(dbName, callback) {
         },
       ],
       series: {
-        allIds: ["series-3", "series-1", "series-4", "series-2"],
+        allIds: ["series-1", "series-2", "series-3"],
         byId: {
           "series-1": {
             id: "series-1",

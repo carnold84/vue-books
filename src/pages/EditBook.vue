@@ -81,12 +81,22 @@ export default {
     wrapper.classList.add("show");
   },
   computed: {
+    id() {
+      return this.$route.params.id;
+    },
     bookData() {
       if (this.$route.params.id) {
         return this.data.books.byId[this.$route.params.id];
       } else {
         return {};
       }
+    },
+    bookAuthors() {
+      console.log(store);
+      return store.getBookAuthors(this.id);
+    },
+    bookSeries() {
+      return store.getBookSeries(this.id);
     },
     authorsData() {
       let options = [];
@@ -111,7 +121,6 @@ export default {
           values.push(authorData);
         }
       });
-      //this.bookAuthors = values;
 
       return {
         values,
@@ -133,7 +142,6 @@ export default {
           values = seriesData;
         }
       });
-      //this.bookSeries = values;
 
       return {
         values,
