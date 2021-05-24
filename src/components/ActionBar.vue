@@ -8,8 +8,12 @@
 export default {
   name: "ActionBar",
   props: {
-    hasBorder: Boolean,
-    default: true,
+    hasBorder: {
+      default() {
+        return true;
+      },
+      type: Boolean,
+    },
   },
 };
 </script>
