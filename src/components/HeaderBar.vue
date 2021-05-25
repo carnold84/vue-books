@@ -59,13 +59,23 @@ export default {
   a {
     color: #ffffff;
     border-bottom: #ffffff dotted 1px;
-    margin: 1px 5px 0 0;
   }
 
   a:hover {
     color: #e98400;
     border-bottom: var(--secondary) dotted 1px;
+  }
+}
+
+.content-left {
+  a {
     margin: 1px 5px 0 0;
+  }
+}
+
+.content-right {
+  a {
+    margin: 1px 0 0 10px;
   }
 }
 @include media("<=tablet") {

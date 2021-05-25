@@ -1,5 +1,6 @@
 <template>
   <Page id="edit-book">
+    {{ authorsData }}
     <template slot="header-left">
       <router-link to="/">{{ appName }}</router-link>
       <h2>/ Add Book</h2>
@@ -38,7 +39,9 @@
           />
         </div>
         <div class="form-buttons anim-section">
-          <ui-button :height="32" :onClick="onCancel">Cancel</ui-button>
+          <ui-button :height="32" :isButton="false" :onClick="onCancel"
+            >Cancel</ui-button
+          >
           <ui-button :isPrimary="true" :isSubmit="true" :height="32"
             >Save Book</ui-button
           >
@@ -70,7 +73,11 @@ export default {
   },
   mixins: [appMixins],
   data() {
-    return store.state;
+    return {
+      config: store.state.config,
+      authorsData: this.getAuthorsData(),
+      seriesData: this.getSeriesData(),
+    };
   },
   mounted() {
     const els = document.querySelectorAll(".anim-section");
@@ -81,27 +88,30 @@ export default {
     wrapper.classList.add("show");
   },
   computed: {
-    bookData() {
-      if (this.$route.params.id) {
-        return this.data.books.byId[this.$route.params.id];
-      } else {
-        return {};
-      }
+    id() {
+      return this.$route.params.id;
     },
-    authorsData() {
+    bookData() {
+      return this.getBookData();
+    },
+  },
+  methods: {
+    getAuthorsData() {
       let options = [];
       let bookAuthors = [];
       let values = [];
+      const bookData = this.getBookData();
 
-      if (this.bookData !== undefined) {
-        this.data.authorBook.forEach((record) => {
-          if (this.bookData.id === record.bookId) {
+      if (bookData !== undefined) {
+        store.state.data.authorBook.forEach((record) => {
+          if (bookData.id === record.bookId) {
             bookAuthors.push(record.authorId);
           }
         });
       }
-      this.data.authors.allIds.forEach((authorId) => {
-        const author = this.data.authors.byId[authorId];
+
+      store.state.data.authors.allIds.forEach((authorId) => {
+        const author = store.state.data.authors.byId[authorId];
         const authorData = {
           ...author,
           label: `${author.lastName}, ${author.firstName}`,
@@ -111,42 +121,50 @@ export default {
           values.push(authorData);
         }
       });
-      //this.bookAuthors = values;
 
       return {
         values,
         options,
       };
     },
-    seriesData() {
+    getBookData() {
+      if (this.$route.params.id) {
+        return store.state.data.books.byId[this.$route.params.id];
+      } else {
+        return {};
+      }
+    },
+    getSeriesData() {
       let options = [];
-      let values = null;
+      let values = [];
+      const bookData = this.getBookData();
 
-      this.data.series.allIds.forEach((seriesId) => {
-        const series = this.data.series.byId[seriesId];
+      store.state.data.series.allIds.forEach((seriesId) => {
+        const series = store.state.data.series.byId[seriesId];
         const seriesData = {
           ...series,
           label: series.title,
         };
         options.push(seriesData);
-        if (seriesId === this.bookData.seriesId) {
-          values = seriesData;
+        if (seriesId === bookData.seriesId) {
+          values = [seriesData];
         }
       });
-      //this.bookSeries = values;
 
       return {
         values,
         options,
       };
     },
-  },
-  methods: {
     onAuthorsChange(authors) {
-      this.bookAuthors = authors;
+      this.authorsData.values.splice(
+        0,
+        this.authorsData.values.length,
+        ...authors
+      );
     },
     onSeriesChange(series) {
-      this.bookSeries = series;
+      this.$set(this.seriesData.values, 0, series);
     },
     onCancel(evt) {
       evt.preventDefault();
@@ -155,10 +173,13 @@ export default {
     onSubmit(evt) {
       const data = serialize(evt.target, { hash: true });
       data.id = this.$route.params.id;
-      data.authors = this.bookAuthors.map((author) => {
+      data.authors = this.authorsData.values.map((author) => {
         return author.id;
       });
-      data.seriesId = this.bookSeries ? this.bookSeries.id : undefined;
+      data.seriesId =
+        this.seriesData.values.length > 0
+          ? this.seriesData.values[0].id
+          : undefined;
       store.addBook(data);
       this.$router.go(-1);
     },
