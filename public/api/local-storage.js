@@ -12,19 +12,118 @@ VueBooksApi.prototype.init = function(dbName, callback) {
   if (this.state === null) {
     this.state = {
       books: {
-        allIds: [],
-        byId: {},
+        allIds: ["book-1", "book-2", "book-3", "book-4", "book-5", "book-6"],
+        byId: {
+          "book-1": {
+            bookNumber: 1,
+            id: "book-1",
+            seriesId: "series-1",
+            title: "Leviathan Wakes",
+          },
+          "book-2": {
+            bookNumber: 2,
+            id: "book-2",
+            seriesId: "series-1",
+            title: "Caliban's War",
+          },
+          "book-3": {
+            bookNumber: 1,
+            id: "book-3",
+            seriesId: "series-2",
+            title: "Pandora's Star",
+          },
+          "book-4": {
+            bookNumber: 2,
+            id: "book-4",
+            seriesId: "series-2",
+            title: "Judas Unchained",
+          },
+          "book-5": {
+            bookNumber: 1,
+            id: "book-5",
+            seriesId: "series-3",
+            title: "Vicious",
+          },
+          "book-6": {
+            id: "book-6",
+            title: "The Pelican Brief",
+          },
+        },
       },
       authors: {
-        allIds: [],
-        byId: {},
+        allIds: ["author-1", "author-2", "author-3", "author-4"],
+        byId: {
+          "author-1": {
+            id: "author-1",
+            firstName: "V.E.",
+            lastName: "Schwab",
+          },
+          "author-2": {
+            id: "author-2",
+            firstName: "James S.A.",
+            lastName: "Corey",
+          },
+          "author-3": {
+            id: "author-3",
+            firstName: "Peter F.",
+            lastName: "Hamilton",
+          },
+          "author-4": {
+            id: "author-4",
+            firstName: "John",
+            lastName: "Grisham",
+          },
+        },
       },
-      authorBook: [],
+      authorBook: [
+        {
+          id: "author-book-1",
+          bookId: "book-1",
+          authorId: "author-2",
+        },
+        {
+          id: "author-book-2",
+          bookId: "book-2",
+          authorId: "author-2",
+        },
+        {
+          id: "author-book-3",
+          bookId: "book-3",
+          authorId: "author-3",
+        },
+        {
+          id: "author-book-4",
+          bookId: "book-4",
+          authorId: "author-3",
+        },
+        {
+          id: "author-book-5",
+          bookId: "book-5",
+          authorId: "author-1",
+        },
+        {
+          id: "author-book-6",
+          bookId: "book-6",
+          authorId: "author-4",
+        },
+      ],
       series: {
-        allIds: [],
-        byId: {},
+        allIds: ["series-1", "series-2", "series-3"],
+        byId: {
+          "series-1": {
+            id: "series-1",
+            title: "The Expanse",
+          },
+          "series-2": {
+            id: "series-2",
+            title: "Commonwealth Saga",
+          },
+          "series-3": {
+            id: "series-3",
+            title: "Villains",
+          },
+        },
       },
-      seriesBook: [],
     };
   } else {
     this.state = JSON.parse(this.state);

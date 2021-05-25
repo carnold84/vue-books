@@ -21,8 +21,10 @@
           />
         </div>
         <div class="form-buttons anim-section">
-          <ui-button :height="32" :onClick="onCancel">Cancel</ui-button>
-          <ui-button :isPrimary="true" :height="32">{{
+          <ui-button :isButton="false" :height="32" :onClick="onCancel"
+            >Cancel</ui-button
+          >
+          <ui-button :isPrimary="true" :isSubmit="true" :height="32">{{
             submitLabel
           }}</ui-button>
         </div>
