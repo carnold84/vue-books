@@ -39,7 +39,9 @@
           />
         </div>
         <div class="form-buttons anim-section">
-          <ui-button :height="32" :onClick="onCancel">Cancel</ui-button>
+          <ui-button :height="32" :isButton="false" :onClick="onCancel"
+            >Cancel</ui-button
+          >
           <ui-button :isPrimary="true" :isSubmit="true" :height="32"
             >Save Book</ui-button
           >
@@ -72,7 +74,7 @@ export default {
   mixins: [appMixins],
   data() {
     return {
-      ...store.state,
+      config: store.state.config,
       authorsData: this.getAuthorsData(),
       seriesData: this.getSeriesData(),
     };
@@ -127,7 +129,7 @@ export default {
     },
     getBookData() {
       if (this.$route.params.id) {
-        return this.data.books.byId[this.$route.params.id];
+        return store.state.data.books.byId[this.$route.params.id];
       } else {
         return {};
       }
@@ -137,8 +139,6 @@ export default {
       let values = [];
       const bookData = this.getBookData();
 
-      console.log(bookData);
-
       store.state.data.series.allIds.forEach((seriesId) => {
         const series = store.state.data.series.byId[seriesId];
         const seriesData = {
@@ -147,7 +147,7 @@ export default {
         };
         options.push(seriesData);
         if (seriesId === bookData.seriesId) {
-          values = seriesData;
+          values = [seriesData];
         }
       });
 

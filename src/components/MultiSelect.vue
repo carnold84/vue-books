@@ -47,12 +47,8 @@ export default {
       return item.label;
     },
     updateSelected(result) {
-      console.log(result);
       this.onChange(result);
     },
-  },
-  updated() {
-    console.log(this.value);
   },
 };
 </script>
