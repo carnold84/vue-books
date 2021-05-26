@@ -1,5 +1,5 @@
 <template>
-  <Page id="edit-series">
+  <Page id="edit-series" maxWidth="800px">
     <template slot="header-left">
       <router-link to="/">{{ appName }}</router-link>
       <h2>/ {{ title }}</h2>

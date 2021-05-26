@@ -11,7 +11,7 @@
       </nav>
     </header-bar>
     <main class="main">
-      <div class="content">
+      <div class="content" :style="{ maxWidth }">
         <slot name="content"></slot>
       </div>
     </main>
@@ -25,6 +25,12 @@ export default {
   name: "Page",
   props: {
     id: {
+      type: String,
+    },
+    maxWidth: {
+      default() {
+        return "1080px";
+      },
       type: String,
     },
   },
@@ -57,7 +63,6 @@ export default {
 }
 .content {
   width: 100%;
-  max-width: 1080px;
   padding: 20px 40px 40px;
 }
 @include media("<=tablet") {
