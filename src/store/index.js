@@ -30,7 +30,7 @@ const store = {
     this.state.config = window.app.config;
     const CustomApi = window[this.state.config.app.apiName];
     api = CustomApi !== undefined ? new CustomApi() : api;
-    api.init(this.state.config.dbName, (response) => {
+    api.init(this.state.config.app.dbName, (response) => {
       this.state.data = response.data;
 
       if (onComplete) {
